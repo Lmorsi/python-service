@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: avaliaedu-opencv
+    runtime: docker
+    envVars:
+      - key: FLASK_ENV
+        value: production
