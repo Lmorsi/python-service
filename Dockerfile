@@ -1,5 +1,6 @@
 FROM python:3.11-slim
 
+# Instala bibliotecas para o OpenCV funcionar
 RUN apt-get update && apt-get install -y \
     libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1 \
     && rm -rf /var/lib/apt/lists/*
@@ -9,20 +10,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
+# O Render usa a porta 10000 por padrão
 ENV PORT=10000
 EXPOSE 10000
 
 CMD ["gunicorn", "--bind", "0.0.0.0:10000", "--workers", "2", "--timeout", "60", "app:app"]
-
-yaml
-services:
-  - type: web
-    name: avaliaedu-opencv
-    runtime: docker
-    dockerfilePath: ./Dockerfile
-    envVars:
-      - key: OPENCV_API_KEY
-        generateValue: true
-      - key: FLASK_ENV
-        value: production
-    healthCheckPath: /health
