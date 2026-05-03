@@ -1,9 +1,3 @@
-# detector.py — Copie este conteúdo para `detector.py`
-
-```python
-"""
-AvaliaEdu — Módulo de detecção de cartão-resposta via OpenCV
-"""
 import cv2
 import numpy as np
 import base64
