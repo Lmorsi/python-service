@@ -1,6 +1,5 @@
 FROM python:3.11-slim
 
-# Instala bibliotecas para o OpenCV funcionar
 RUN apt-get update && apt-get install -y \
     libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1 \
     && rm -rf /var/lib/apt/lists/*
@@ -10,7 +9,22 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
-# O Render usa a porta 10000 por padrão
+ENV PORT=8000
+ENV FLASK_ENV=production
+EXPOSE 8000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "60", "app:app"]
+FROM python:3.11-slim
+
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+
 ENV PORT=10000
 EXPOSE 10000
 
