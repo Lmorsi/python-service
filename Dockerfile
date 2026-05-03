@@ -13,13 +13,8 @@ ENV PORT=10000
 EXPOSE 10000
 
 CMD ["gunicorn", "--bind", "0.0.0.0:10000", "--workers", "2", "--timeout", "60", "app:app"]
-```
 
----
-
-## render.yaml (deploy automático no Render.com)
-
-```yaml
+yaml
 services:
   - type: web
     name: avaliaedu-opencv
@@ -31,4 +26,3 @@ services:
       - key: FLASK_ENV
         value: production
     healthCheckPath: /health
-```
